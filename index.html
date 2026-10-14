@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dashboard</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f4f5f5;--panel:#fff;--bd:#d8dadd;--tx:#202226;--mut:#6b7078;--grn:#1a9f4b;--red:#d4343c;--yel:#c98a00;--blu:#3274d9;--org:#e0752d}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111217;--panel:#181b1f;--bd:#2c3037;--tx:#d8d9da;--mut:#8e9099;--grn:#73bf69;--red:#f2495c;--yel:#ff9830;--blu:#5794f2;--org:#ff780a}}
+:root[data-theme="dark"]{--bg:#111217;--panel:#181b1f;--bd:#2c3037;--tx:#d8d9da;--mut:#8e9099;--grn:#73bf69;--red:#f2495c;--yel:#ff9830;--blu:#5794f2;--org:#ff780a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:13px/1.4 Inter,Roboto,"Segoe UI",Arial,sans-serif}
+header{padding:8px 16px;border-bottom:1px solid var(--bd);background:var(--panel);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.hr{display:flex;flex-wrap:wrap;gap:8px;align-items:center}header h1{font-size:16px;margin:0;font-weight:500;flex:1}header h1 span{color:var(--org)}
+.pill,.chip{border:1px solid var(--bd);border-radius:2px;padding:3px 10px;color:var(--mut);background:var(--bg);font:inherit}
+button{cursor:pointer;color:var(--tx)}button:hover{border-color:var(--blu)}.chip.on{border-color:var(--blu);color:var(--tx);background:color-mix(in srgb,var(--blu) 18%,var(--bg))}
+.chips{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;align-items:center}.chips b{color:var(--mut);font-weight:400;margin-right:4px}
+main{padding:12px 16px;max-width:1600px;margin:auto}.row{margin-bottom:10px}
+.rowh{display:flex;gap:8px;cursor:pointer;padding:6px 0;font-size:15px;font-weight:500;user-select:none}.rowh i{font-style:normal;color:var(--mut);transition:transform .15s}.row.c i{transform:rotate(-90deg)}.row.c .grid{display:none}.rowh small{color:var(--mut);font-weight:400;align-self:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}.w{grid-column:1/-1}
+.p{background:var(--panel);border:1px solid var(--bd);border-radius:2px;padding:8px 12px;min-width:0}
+.p h3{margin:0 0 6px;font-size:12px;font-weight:500;color:var(--mut);display:flex;justify-content:space-between}
+.big{font-size:28px;font-weight:500;line-height:1.1}.sub{color:var(--mut);font-size:12px;margin-top:3px}
+svg.ch{width:100%;height:80px;display:block}svg.ch.l{height:170px}
+.tm{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 10px;margin-top:6px}.tm div{color:var(--mut);font-size:11px}.tm b{display:block;font-size:13px;font-weight:500;color:var(--tx)}
+.ow{overflow:auto}table{width:100%;border-collapse:collapse;font:12px ui-monospace,Menlo,Consolas,monospace}
+td,th{text-align:left;padding:4px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}th{color:var(--mut);font-weight:500;position:sticky;top:0;background:var(--panel)}td.m{white-space:normal}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:3px;background:currentColor}
+.lg{display:inline-block;min-width:34px;text-align:center;padding:1px 4px;border-radius:2px;color:#111}
+.G{background:var(--grn)}.Y{background:var(--yel)}.R{background:var(--red)}
+.E{color:var(--red)}.W{color:var(--yel)}.src{color:var(--blu)}.lw{max-height:280px;overflow:auto}
+.leg{display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--mut);margin-top:4px}.leg span:before{content:"";display:inline-block;width:10px;height:3px;margin-right:4px;vertical-align:middle;background:var(--c)}
+.note{color:var(--mut);font-size:11px;padding:8px 0}
+body{font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+header{box-shadow:0 1px 0 var(--bd),0 4px 12px rgba(0,0,0,.12)}header h1{font-size:17px;letter-spacing:.01em}
+.pill{display:inline-flex;align-items:center;border-radius:3px;font-size:12px}.chip{border-radius:3px;white-space:nowrap;flex:none;font-size:12px}
+.chip.on{box-shadow:inset 0 -2px 0 var(--blu)}button:focus-visible{outline:2px solid var(--blu);outline-offset:1px}
+.live{width:7px;height:7px;border-radius:50%;background:var(--grn);margin-right:6px;animation:pl 2s ease-in-out infinite}@keyframes pl{50%{opacity:.3}}@media(prefers-reduced-motion:reduce){.live{animation:none}}
+@media(max-width:700px){.chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}main{padding:10px}}
+.rowh{border-bottom:1px solid var(--bd);margin-bottom:8px;padding:8px 0}.rowh:hover{color:var(--blu)}.rowh small{font-size:12px}
+.p{border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.12)}.p h3{color:var(--tx);font-weight:600;font-size:12px;letter-spacing:.02em}.p h3 span+span{color:var(--mut);font-weight:400}
+.p.k{border-left:3px solid var(--ac,var(--bd))}.p.k h3{color:var(--mut);text-transform:uppercase;font-size:11px;letter-spacing:.06em}.p.k .big{font-size:26px}
+#ov{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}.big{font-weight:600}
+.p svg.ch:not(.l){border:1px solid color-mix(in srgb,var(--blu) 40%,var(--bd));background:color-mix(in srgb,var(--blu) 5%,transparent)}
+.tm div{text-transform:uppercase;letter-spacing:.04em;font-size:10px}.tm b{text-transform:none;letter-spacing:0;font-size:13px;margin-top:1px}
+.ow td,.ow th{text-align:center;padding:6px 8px}.ow thead th{border-bottom:1px solid var(--bd);font-size:11px;text-transform:uppercase;letter-spacing:.05em}.ow thead tr:first-child th[colspan]{border-bottom:1px dashed var(--bd)}
+.ow td:first-child,.ow th:first-child{text-align:left;position:sticky;left:0;background:var(--panel);z-index:1;font-weight:600}.ow td:last-child,.ow th:last-child{text-align:left}
+.ow tbody tr:hover td,.lw tbody tr:hover td{background:color-mix(in srgb,var(--blu) 8%,var(--panel))}
+.lg{border-radius:3px;font-weight:600;min-width:42px;padding:2px 6px}.dot{box-shadow:0 0 0 3px color-mix(in srgb,currentColor 22%,transparent);margin:0 5px 0 2px}
+.bd{padding:1px 7px;border-radius:3px;font-size:11px;font-weight:600;background:color-mix(in srgb,currentColor 16%,transparent)}
+.lw{border:1px solid var(--bd);border-radius:3px}.note{text-align:center;padding:14px 0}.I{color:var(--blu)}
+</style></head><body>
+<header><div class="hr"><h1><span>◉</span> Dashboard</h1><span class="pill" id="clock"></span><span class="pill">Last 2 min</span><span class="pill"><span class="live"></span>Live · 2s</span><button class="pill" id="theme">Theme</button></div>
+<div class="chips" id="chips"></div></header>
+<main>
+<section class="row"><div class="rowh"><i>▾</i>Overview <small id="ovs"></small></div><div class="grid" id="ov"></div></section>
+<section class="row"><div class="rowh"><i>▾</i>CPU Performance <small>Task Manager metrics per selected branch</small></div><div class="grid" id="cpu"></div></section>
+<section class="row"><div class="rowh"><i>▾</i>Services <small>3 Autocoms · 7 DTrans · OW per branch</small></div><div class="grid">
+<div class="p w ow"><table><thead><tr><th rowspan="2">Branch</th><th>Autocoms</th><th colspan="7">DTrans lag</th><th rowspan="2">OW · incoming orders</th></tr><tr><th>1 · 2 · 3</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr></thead><tbody id="mx"></tbody></table></div>
+<div class="p w"><h3><span>Worst DTrans lag per branch (seconds)</span><span>threshold 30s</span></h3><svg class="ch l" id="lagCh" viewBox="0 0 600 170" preserveAspectRatio="none"></svg><div class="leg" id="lagLeg"></div></div>
+</div></section>
+<section class="row"><div class="rowh"><i>▾</i>Database <small>Uptime &amp; events per branch</small></div><div class="grid"><div class="p w ow"><table><thead><tr><th>Branch</th><th>Status</th><th>Uptime (since last start)</th><th>30-day availability</th><th>Last event</th></tr></thead><tbody id="dbt"></tbody></table></div><div class="p w"><h3><span>Database events</span></h3><div class="chips" id="evt" style="margin:0 0 6px"></div><div class="lw"><table><thead><tr><th>Time</th><th>Branch</th><th>Level</th><th>Event</th></tr></thead><tbody id="evs"></tbody></table></div></div></div></section>
+<section class="row"><div class="rowh"><i>▾</i>Log Errors <small>Dayend · Autocoms · DTrans</small></div><div class="grid"><div class="p w"><div class="chips" id="tabs" style="margin:0 0 6px"></div><div class="lw"><table><thead><tr><th>Time</th><th>Branch</th><th>Source</th><th>Level</th><th>Message</th></tr></thead><tbody id="logs"></tbody></table></div></div></div></section>
+<div class="note">Simulated data. To go live, replace <code>poll()</code> with a fetch from your own endpoint returning the same fields per branch (cpu, autocoms[3], dtrans lag[7], OW queue/processed, database status + events, log lines).</div>
+</main>
+<script>
+const N=60,$=id=>document.getElementById(id),rnd=(a,b)=>a+Math.random()*(b-a),cl=(v,a,b)=>Math.max(a,Math.min(b,v));
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const BR=Array.from({length:10},(_,i)=>({n:'Mighty '+String(i+1).padStart(2,'0'),cpu:Array(N).fill(rnd(10,40)),ac:[1,1,1],acS:[0,0,0].map(()=>Date.now()-rnd(1,9)*36e5),
+ lag:Array.from({length:7},()=>rnd(2,15)),worst:Array(N).fill(8),db:1,dbS:Date.now()-rnd(2,40)*864e5,dbD:rnd(0,30)*6e4,q:Math.floor(rnd(0,15)),done:0,last:null,up:Date.now()-rnd(1,20)*864e5,k:i}));
+const SRC=['Dayend','Autocoms','DTrans'],MSG={Dayend:['Dayend step failed: ledger post timeout','Dayend batch rolled back','Dayend report export failed'],Autocoms:['Connection reset by peer','Heartbeat missed','Queue handler exception'],DTrans:['Send failed: host unreachable','Checksum mismatch on batch','Retry limit reached']};
+const S={sel:new Set(BR.map((_,i)=>i)),filter:'All',logs:[],ev:[],evF:'All'};
+const col=i=>`hsl(${i*36} 70% 58%)`,sty=l=>l>=60?'R':l>=30?'Y':'G';
+function addLog(b,src,lvl){const inst=src==='Autocoms'?' #'+(1+Math.floor(Math.random()*3)):src==='DTrans'?' #'+(1+Math.floor(Math.random()*7)):'';
+ S.logs.unshift({t:new Date(),b:b.k,src:src+inst,s:src,lvl:lvl||(Math.random()<.7?'E':'W'),m:MSG[src][Math.floor(Math.random()*3)]});S.logs.length=Math.min(S.logs.length,400)}
+BR.forEach(b=>{for(let i=0;i<3;i++)addLog(b,SRC[(i+b.k)%3])});
+const DBI=['Backup completed','Checkpoint completed','Transaction log truncated','Index maintenance finished','Replication in sync'],DBW=['Connection pool at 90%','Slow query detected (>5s)','Long-running transaction (>10m)','Disk space below 15%'];
+function addEv(b,lvl,m,t){S.ev.unshift({t:t||new Date(),b:b.k,lvl,m});S.ev.length=Math.min(S.ev.length,300)}
+BR.forEach(b=>{for(let i=0;i<3;i++)addEv(b,i?'I':'W',(i?DBI:DBW)[i%4],new Date(Date.now()-rnd(1,120)*6e4))});S.ev.sort((a,b)=>b.t-a.t);
+function path(a,max,w,h,fill){const p=a.map((v,i)=>(i/(a.length-1)*w).toFixed(1)+','+(h-cl(v/max,0,1)*h).toFixed(1));return fill?`M0,${h} L`+p.join(' L')+` L${w},${h}Z`:'M'+p.join(' L')}
+function chart(ser,max,h,thr){const w=600;let s='';for(let i=1;i<4;i++)s+=`<line x1="0" x2="${w}" y1="${h/4*i}" y2="${h/4*i}" stroke="${css('--bd')}" vector-effect="non-scaling-stroke"/>`;
+ if(thr)s+=`<line x1="0" x2="${w}" y1="${h-thr/max*h}" y2="${h-thr/max*h}" stroke="${css('--red')}" stroke-dasharray="5 4" vector-effect="non-scaling-stroke"/>`;
+ ser.forEach(([a,c,f])=>{if(f)s+=`<path d="${path(a,max,w,h,1)}" fill="${c}" opacity=".18"/>`;s+=`<path d="${path(a,max,w,h)}" fill="none" stroke="${c}" stroke-width="1.5" vector-effect="non-scaling-stroke"/>`});return s}
+const fu=ms=>{const s=ms/1e3|0,d=s/86400|0,h=s%86400/3600|0,m=s%3600/60|0;return d?`${d}d ${h}h ${m}m`:`${h}h ${m}m`};
+function poll(){ // ← replace with real fetch() per branch
+ BR.forEach(b=>{b.cpu.push(cl(b.cpu.at(-1)+rnd(-9,9)+(Math.random()<.04?rnd(15,35):0),3,98));b.cpu.shift();
+  b.ac.forEach((u,i)=>{if(u&&Math.random()<.004||!u&&Math.random()<.12){b.ac[i]=u?0:1;b.acS[i]=Date.now()}});
+  b.lag=b.lag.map(l=>cl(l+rnd(-3,3)+(Math.random()<.01?rnd(20,45):-.6),1,150));b.worst.push(Math.max(...b.lag));b.worst.shift();
+  if(b.q>0&&Math.random()<.85){const p=Math.min(b.q,Math.ceil(rnd(1,4)));b.q-=p;b.done+=p;b.last=Date.now()}if(Math.random()<.4)b.q+=Math.floor(rnd(0,5));
+  SRC.forEach(s=>{if(Math.random()<.015)addLog(b,s)});
+  if(b.db&&Math.random()<.004){b.db=0;b.dbT=Date.now();addEv(b,'E','Database stopped unexpectedly')}else if(!b.db){b.dbD+=2e3;if(Math.random()<.12){b.db=1;b.dbS=Date.now();addEv(b,'I','Database started · service recovered')}}
+  if(b.db&&Math.random()<.02){const r=Math.random()<.35,a=r?DBW:DBI;addEv(b,r?'W':'I',a[Math.floor(Math.random()*a.length)])}})}
+function render(){
+ const sel=BR.filter(b=>S.sel.has(b.k));
+ $('chips').innerHTML='<b>Branches</b>'+BR.map(b=>`<button class="chip ${S.sel.has(b.k)?'on':''}" data-b="${b.k}">${b.n}</button>`).join('')+'<button class="chip" data-b="all">All</button><button class="chip" data-b="none">None</button>';
+ const acT=sel.length*3,acU=sel.reduce((a,b)=>a+b.ac.reduce((x,y)=>x+y),0),worst=Math.max(0,...sel.map(b=>Math.max(...b.lag))),owP=sel.filter(b=>b.last&&Date.now()-b.last<8e3).length,
+  avg=sel.length?sel.reduce((a,b)=>a+b.cpu.at(-1),0)/sel.length:0,dbU=sel.filter(b=>b.db).length,L=S.logs.filter(x=>S.sel.has(x.b)),cnt=s=>L.filter(x=>x.s===s&&x.lvl==='E').length;
+ $('ovs').textContent=sel.length+' of 10 branches';
+ $('ov').innerHTML=[['Autocoms running',`${acU} / ${acT}`,acU===acT?'--grn':'--red'],['Worst DTrans lag',worst.toFixed(0)+' s',worst>=60?'--red':worst>=30?'--yel':'--grn'],['OW processing',`${owP} / ${sel.length} branches`,owP===sel.length?'--grn':'--yel'],['Avg CPU',avg.toFixed(0)+'%','--blu'],
+  ['Databases online',`${dbU} / ${sel.length}`,dbU===sel.length?'--grn':'--red'],['Dayend errors',cnt('Dayend'),'--red'],['Autocoms errors',cnt('Autocoms'),'--red'],['DTrans errors',cnt('DTrans'),'--red']].map(([t,v,c])=>`<div class="p k" style="--ac:${css(c)}"><h3>${t}</h3><div class="big" style="color:${css(c)}">${v}</div></div>`).join('');
+ $('cpu').innerHTML=sel.map(b=>{const u=b.cpu.at(-1);return `<div class="p k" style="--ac:${css(u>=85?'--red':u>=60?'--yel':'--grn')}"><h3><span>${b.n}</span><span>% Utilization · 2 min</span></h3><div class="big">${u.toFixed(0)}%</div><svg class="ch" viewBox="0 0 600 80" preserveAspectRatio="none">${chart([[b.cpu,css(u>=85?'--red':u>=60?'--yel':'--blu'),1]],100,80)}</svg>
+  <div class="tm"><div>Speed<b>${(2.4+u/100*1.1).toFixed(2)} GHz</b></div><div>Processes<b>${170+b.k*6+(u/4|0)}</b></div><div>Threads<b>${2300+b.k*40+(u*9|0)}</b></div><div>Handles<b>${(76000+b.k*900+u*120|0).toLocaleString()}</b></div><div>Up time<b>${fu(Date.now()-b.up)}</b></div><div>Logical CPUs<b>8</b></div></div></div>`}).join('');
+ $('mx').innerHTML=sel.map(b=>{const act=b.last&&Date.now()-b.last<8e3,st=act?['PROCESSING','--grn']:b.q>0?['STALLED','--yel']:['IDLE','--mut'];
+  return `<tr><td><span class="dot" style="color:${css(b.ac.includes(0)||Math.max(...b.lag)>=60?'--red':Math.max(...b.lag)>=30||st[0]==='STALLED'?'--yel':'--grn')}" title="Branch health"></span>${b.n}</td><td>${b.ac.map((u,i)=>`<span class="dot" style="color:${css(u?'--grn':'--red')}" title="Autocoms ${i+1}: ${u?'running':'stopped'} ${fu(Date.now()-b.acS[i])}"></span>`).join('')}</td>${b.lag.map(l=>`<td><span class="lg ${sty(l)}">${l.toFixed(0)}s</span></td>`).join('')}
+  <td><span class="dot" style="color:${css(st[1])}"></span>${st[0]} · ${b.q} waiting · ${b.done} done</td></tr>`}).join('');
+ $('lagCh').innerHTML=chart(sel.map(b=>[b.worst,col(b.k)]),120,170,30);$('lagLeg').innerHTML=sel.map(b=>`<span style="--c:${col(b.k)}">${b.n}</span>`).join('');
+ $('tabs').innerHTML=['All',...SRC].map(t=>`<button class="chip ${S.filter===t?'on':''}" data-t="${t}">${t}</button>`).join('');
+ $('logs').innerHTML=L.filter(x=>S.filter==='All'||x.s===S.filter).slice(0,60).map(x=>`<tr><td>${x.t.toLocaleTimeString()}</td><td>${BR[x.b].n}</td><td class="src">${x.src}</td><td><span class="bd ${x.lvl}">${x.lvl==='E'?'ERROR':'WARN'}</span></td><td class="m">${x.m}</td></tr>`).join('');
+ $('dbt').innerHTML=sel.map(b=>{const av=100*(1-b.dbD/(30*864e5)),c=b.db?(av>=99.9?'--grn':av>=99?'--yel':'--red'):'--red',le=S.ev.find(x=>x.b===b.k);
+  return `<tr><td>${b.n}</td><td><span class="dot" style="color:${css(b.db?'--grn':'--red')}"></span>${b.db?'ONLINE':'OFFLINE'}</td><td>${b.db?fu(Date.now()-b.dbS):'Down '+fu(Date.now()-b.dbT)}</td><td style="color:${css(c)};font-weight:600">${av.toFixed(3)}%</td><td>${le?le.t.toLocaleTimeString()+' · '+le.m:'–'}</td></tr>`}).join('');
+ $('evt').innerHTML=[['All','All'],['E','Errors'],['W','Warnings'],['I','Info']].map(([k,t])=>`<button class="chip ${S.evF===k?'on':''}" data-e="${k}">${t}</button>`).join('');
+ $('evs').innerHTML=S.ev.filter(x=>S.sel.has(x.b)&&(S.evF==='All'||x.lvl===S.evF)).slice(0,40).map(x=>`<tr><td>${x.t.toLocaleTimeString()}</td><td>${BR[x.b].n}</td><td><span class="bd ${x.lvl}">${{E:'ERROR',W:'WARN',I:'INFO'}[x.lvl]}</span></td><td class="m">${x.m}</td></tr>`).join('');
+ $('clock').textContent=new Date().toLocaleString()}
+const tick=()=>{poll();render()};
+document.addEventListener('click',e=>{const t=e.target,d=t.dataset;
+ if(d.b){d.b==='all'?BR.forEach(b=>S.sel.add(b.k)):d.b==='none'?S.sel.clear():(S.sel.has(+d.b)?S.sel.delete(+d.b):S.sel.add(+d.b));render()}
+ if(d.t){S.filter=d.t;render()}if(d.e){S.evF=d.e;render()}const h=t.closest('.rowh');if(h)h.parentElement.classList.toggle('c')});
+$('theme').onclick=()=>{const r=document.documentElement;r.dataset.theme=css('--bg')==='#111217'?'light':'dark';render()};
+tick();setInterval(tick,2000);
+</script></body></html>
